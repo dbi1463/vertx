@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tw.funymph</groupId>
-	<artifactId>photo-wall-vertx</artifactId>
+	<artifactId>talkie-vertx</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<java.version>1.8</java.version>
@@ -43,7 +43,7 @@
 		</dependency>
 		<dependency>
 			<groupId>io.vertx</groupId>
-			<artifactId>vertx-core</artifactId>
+			<artifactId>vertx-web</artifactId>
 			<version>3.4.2</version>
 		</dependency>
 	</dependencies>
@@ -156,4 +156,6 @@
 			</plugin>
 		</plugins>
 	</build>
+	<name>Talkie</name>
+	<description>This is a simple project for practicing Vert.x to implement a simple IM.</description>
 </project>

@@ -2,14 +2,14 @@
  * 
  * Copyright (C) Funymph all rights reserved.
  *
- * This file is a part of the PhotoWall Vert.x project.
+ * This file is a part of the Talkie Vert.x project.
  */
 
 /**
- * This package contains all interfaces and classes of PhotoWall.
+ * This package contains all interfaces and classes of Talkie server.
  * 
  * @author Spirit Tu
  * @version 1.0
  * @since 1.0
  */
-package tw.funymph.photowall;
+package tw.funymph.talkie;
