@@ -9,6 +9,9 @@ package tw.funymph.talkie;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
+import tw.funymph.talkie.ws.FailureHandler;
+import tw.funymph.talkie.ws.JsonResponser;
+import tw.funymph.talkie.ws.TimestampHandler;
 import tw.funymph.talkie.ws.VertxWebService;
 import tw.funymph.talkie.ws.auth.AuthWebService;
 
@@ -31,8 +34,15 @@ public class Talkie {
 		Router root = Router.router(vertx);
 		Router webServices = Router.router(vertx);
 
+		root.route().handler(new TimestampHandler());
+		root.get("/hello").handler(context -> {
+			context.response().end("Hello World");
+		});
+
 		VertxWebService authWebService = new AuthWebService();
 		authWebService.route(webServices);
+		webServices.route().handler(new JsonResponser());
+		webServices.route().failureHandler(new FailureHandler());
 
 		root.mountSubRouter("/ws", webServices);
 		HttpServer server = vertx.createHttpServer();

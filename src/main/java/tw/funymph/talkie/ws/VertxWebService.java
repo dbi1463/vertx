@@ -6,10 +6,9 @@
  */
 package tw.funymph.talkie.ws;
 
-import static java.lang.String.valueOf;
-import static java.lang.System.currentTimeMillis;
+import java.util.HashMap;
+import java.util.Map;
 
-import io.vertx.core.Handler;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 
@@ -24,21 +23,33 @@ import io.vertx.ext.web.RoutingContext;
  */
 public interface VertxWebService extends HttpHeaders {
 
+	static final String WebServiceResult = "result";
+	static final String WebServiceMetadata = "meta";
+
 	/**
-	 * Wrap the given handler as a new handler that provides some meta information
-	 * in the response.
-	 * 
-	 * @param handler the given handler to wrap
-	 * @return the new handler
+	 * Mark the given object as the final result.
+	 *  
+	 * @param context the routing context
+	 * @param object the final result
 	 */
-	default Handler<RoutingContext> metaAware(Handler<RoutingContext> handler) {
-		return (RoutingContext context) -> {
-			long timestamp = currentTimeMillis();
-			context.response().putHeader(Timestamp, valueOf(timestamp));
-			handler.handle(context);
-			context.response().putHeader(Elapsed, valueOf(currentTimeMillis() - timestamp));
-			context.response().end();
-		};
+	default void resolve(RoutingContext context, Object object) {
+		context.put(WebServiceResult, object);
+	}
+
+	/**
+	 * Add the given key-value as a part of the metadata in the final result.
+	 * 
+	 * @param context the routing context
+	 * @param key the metadata key
+	 * @param value the metadata value
+	 */
+	default void addMetaData(RoutingContext context, String key, Object value) {
+		Map<String, Object> meta = context.get(WebServiceMetadata);
+		if (meta == null) {
+			meta = new HashMap<>();
+			context.put(WebServiceMetadata, meta);
+		}
+		meta.put(key, value);
 	}
 
 	/**

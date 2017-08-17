@@ -8,6 +8,7 @@ package tw.funymph.talkie.ws;
 
 import static java.util.Base64.getDecoder;
 import static java.util.regex.Pattern.compile;
+import static tw.funymph.talkie.utils.StringUtils.assertNotBlank;
 
 import java.util.regex.Matcher;
 
@@ -35,6 +36,8 @@ public interface HttpHeaders {
 	static final String ContentLength = "Content-Length";
 	static final String ContentDisposition = "Content-Disposition";
 
+	static final String JsonContentType = "application/json";
+
 	static final String BasicAuthorizationPattern = "Basic (.+)";
 	static final String AttachmentFilenamePattern = "attachment[\\s;]+filename=\"(.+)\"";
 
@@ -45,7 +48,7 @@ public interface HttpHeaders {
 	 * @return the decoded information
 	 */
 	public static String[] basicAuthorization(String authorization) {
-		Matcher matcher = compile(BasicAuthorizationPattern).matcher(authorization);
+		Matcher matcher = compile(BasicAuthorizationPattern).matcher(assertNotBlank(authorization, "the authorization is not specified"));
 		if (!matcher.find()) {
 			throw new IllegalArgumentException("the basic authorization is not specified");
 		}
